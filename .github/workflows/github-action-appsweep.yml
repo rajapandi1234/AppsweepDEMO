@@ -1,16 +1,29 @@
-name: AppSweep mobile application security testing
-on: 
+name: "AppSweep Scan"
+
+on:
   push:
     branches:
-      - master
-jobs:
-  upload-app-to-appsweep:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - main
+  pull_request:
+    branches:
+      - main
 
-      - name: Upload app to AppSweep with Gradle
-        env:
-          APPSWEEP_API_KEY: ${{ secrets.APPSWEEP_API_KEY }}
-        run: ./gradlew uploadToAppSweepRelease
+jobs:
+  appsweep-scan:
+    name: AppSweep Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+
+    - name: Upload with Gradle
+      env:
+        appsweep_api_key: ${{ secrets.APPSWEEP_API_KEY }}
+      run: ./gradlew uploadToAppSweepDebug
