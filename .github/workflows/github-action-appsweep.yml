@@ -25,5 +25,5 @@ jobs:
 
     - name: Upload with Gradle
       env:
-        appsweep_api_key: ${{ secrets.APPSWEEP_API_KEY }}
+        appsweep_api_key: ${{ secrets.TEST }}
       run: ./gradlew uploadToAppSweepDebug
