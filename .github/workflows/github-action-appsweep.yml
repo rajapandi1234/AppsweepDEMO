@@ -28,30 +28,5 @@ jobs:
       - name: Upload APK to AppSweep
         env:
           APPSWEEP_API_KEY: ${{ secrets.APPSWEEP_API_KEY }}
-        run: |
-          curl -X POST https://api.appsweep.com/upload \
-          -H "Authorization: Bearer $APPSWEEP_API_KEY" \
-          -F "file=@app/build/outputs/apk/debug/app-debug.apk"
-
-      - name: Get AppSweep scan results
-        env:
-          APPSWEEP_API_KEY: ${{ secrets.APPSWEEP_API_KEY }}
-        run: |
-          curl -X GET https://api.appsweep.com/scan-results \
-          -H "Authorization: Bearer $APPSWEEP_API_KEY" \
-          -o appsweep-results.json
-
-      - name: Post scan results to PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v3
-        with:
-          script: |
-            const fs = require('fs');
-            const results = fs.readFileSync('appsweep-results.json', 'utf8');
-            const comment = `### AppSweep Scan Results\n\`\`\`json\n${results}\n\`\`\``;
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
+        run: ./gradlew uploadAppSweepRelease
+        
