@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.plcoding.appsweepyoutubedemo'
+    namespace 'com.plcoding.appsweepdemo'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.plcoding.appsweepyoutubedemo"
+        applicationId "com.plcoding.appsweepdemo"
         minSdk 24
         targetSdk 33
         versionCode 1
